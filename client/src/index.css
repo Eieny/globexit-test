@@ -1,6 +1,35 @@
+:root {
+  --text-color_dark: #262C40;
+  --text-color_light: #8189A3;
+  --background-color: #FFFFFF;
+  --backdrop-color: rgba(188, 195, 208, .5);
+  --icon_hover-color: rgba(67, 46, 171, .05);
+  --border-color: #D4DEFE;
+  --outline-color: #432EAB;
+  --drop-shadow-color: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  font-style: normal;
+  font-weight: normal;
+  src: url(./accets/fonts/proximanova_regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  font-style: normal;
+  font-weight: bold;
+  src: url(./accets/fonts/proximanova_bold.otf) format('opentype');
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,4 +39,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.modal-open {
+  overflow: hidden;
 }
