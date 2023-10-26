@@ -1,0 +1,22 @@
+.modal-content {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 40px;
+  row-gap: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.additional-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px
+}
+
+.name {
+  color: var(--text-color_dark);
+}
+
+.value {
+  color: var(--text-color_light);
+}
