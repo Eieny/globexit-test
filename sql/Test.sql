@@ -32,7 +32,7 @@ SELECT c.id,
 		c.name,
 		s.name AS sub_name,
 		s.id AS sub_id,
-		l.level,
+		l.level AS sub_level,
 		sub_count.colls_count
 	FROM [testdb].[dbo].collaborators AS c
 	JOIN [testdb].[dbo].subdivisions AS s ON c.subdivision_id = s.id
