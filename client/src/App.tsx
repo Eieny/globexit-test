@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import User from 'data/user';
 import { UserList, SearchInput, UserDetailModal } from 'components';
+import User from 'data/user';
 import UserService from 'services/user.remote';
 import HttpClient from 'utils/http-client';
 import css from './App.module.css';
@@ -8,20 +8,31 @@ import css from './App.module.css';
 const http = new HttpClient();
 const services = new UserService(http);
 
-function App() {
+type Props = { onError: (message?: string) => void };
+
+function App(props: Props) {
+  const { onError } = props;
   const [isModalOpen, toggleModal] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, selectUser] = useState<User | null>(null);
 
   const getAllUsers = async () => {
-    const res = await services.all();
-    setUsers(res);
+    try {
+      const res = await services.all();
+      setUsers(res);
+    } catch (e: any) {
+      onError('Ошибка во время загрузки пользователей');
+    }
   };
 
   const getUserByName = async () => {
-    const res = await services.getByName(searchValue);
-    setUsers(res);
+    try {
+      const res = await services.getByName(searchValue);
+      setUsers(res);
+    } catch (e: any) {
+      onError('Ошибка во время поиска пользователей');
+    }
   };
 
   const handleClose = () => {

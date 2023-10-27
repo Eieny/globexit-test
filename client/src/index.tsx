@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { ErrorBoundary, ErrorFallback } from 'components';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+
+const ErrorBoundaryApp = () => {
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  const handleError = (message?: string) => {
+    setHasError(true);
+    setErrorMessage(message);
+  };
+
+  if (hasError) return <ErrorFallback message={errorMessage} />;
+  return (
+    <ErrorBoundary fallback={<ErrorFallback message='Внутренняя ошибка' />}>
+      <App onError={handleError} />
+    </ErrorBoundary>
+  );
+};
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundaryApp />
   </React.StrictMode>
 );
 
