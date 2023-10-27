@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import User from 'data/user';
 import { UserList, SearchInput, UserDetailModal } from 'components';
+import User from 'data/user';
 import UserService from 'services/user.remote';
 import HttpClient from 'utils/http-client';
 import css from './App.module.css';
@@ -10,7 +10,6 @@ const services = new UserService(http);
 
 function App() {
   const [isModalOpen, toggleModal] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, selectUser] = useState<User | null>(null);
 
@@ -19,8 +18,8 @@ function App() {
     setUsers(res);
   };
 
-  const getUserByName = async () => {
-    const res = await services.getByName(searchValue);
+  const getByName = async (searchStr: string) => {
+    const res = await services.getByName(searchStr);
     setUsers(res);
   };
 
@@ -36,16 +35,12 @@ function App() {
   useEffect(() => {
     if (!selectedUser || isModalOpen) return;
     toggleModal(true);
-  }, [selectedUser]);
+  }, [selectedUser, isModalOpen]);
 
   return (
     <div className={css['App']}>
       <main>
-        <SearchInput
-          value={searchValue}
-          onChange={setSearchValue}
-          onClick={getUserByName}
-        />
+        <SearchInput onSearch={getByName} isInstantSearch />
         <UserList list={users} onClick={selectUser} />
         <UserDetailModal
           user={selectedUser}
