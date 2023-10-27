@@ -1,0 +1,21 @@
+.fallback {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: var(--background-color);
+  color: var(--text-color_light);
+}
+
+.fallback div:first-child {
+  font-size: 128px;
+}
+
+.fallback .message {
+  font-size: 24px;
+}

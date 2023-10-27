@@ -8,19 +8,30 @@ import css from './App.module.css';
 const http = new HttpClient();
 const services = new UserService(http);
 
-function App() {
+type Props = { onError: (message?: string) => void };
+
+function App(props: Props) {
+  const { onError } = props;
   const [isModalOpen, toggleModal] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, selectUser] = useState<User | null>(null);
 
   const getAllUsers = async () => {
-    const res = await services.all();
-    setUsers(res);
+    try {
+      const res = await services.all();
+      setUsers(res);
+    } catch (e: any) {
+      onError('Ошибка во время загрузки пользователей');
+    }
   };
 
-  const getByName = async (searchStr: string) => {
-    const res = await services.getByName(searchStr);
-    setUsers(res);
+  const getUserByName = async (searchStr: string) => {
+    try {
+      const res = await services.getByName(searchStr);
+      setUsers(res);
+    } catch (e: any) {
+      onError('Ошибка во время поиска пользователей');
+    }
   };
 
   const handleClose = () => {
@@ -40,7 +51,7 @@ function App() {
   return (
     <div className={css['App']}>
       <main>
-        <SearchInput onSearch={getByName} isInstantSearch />
+        <SearchInput onSearch={getUserByName} isInstantSearch />
         <UserList list={users} onClick={selectUser} />
         <UserDetailModal
           user={selectedUser}
