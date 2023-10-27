@@ -13,7 +13,6 @@ type Props = { onError: (message?: string) => void };
 function App(props: Props) {
   const { onError } = props;
   const [isModalOpen, toggleModal] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, selectUser] = useState<User | null>(null);
 
@@ -26,9 +25,9 @@ function App(props: Props) {
     }
   };
 
-  const getUserByName = async () => {
+  const getUserByName = async (searchStr: string) => {
     try {
-      const res = await services.getByName(searchValue);
+      const res = await services.getByName(searchStr);
       setUsers(res);
     } catch (e: any) {
       onError('Ошибка во время поиска пользователей');
@@ -47,16 +46,12 @@ function App(props: Props) {
   useEffect(() => {
     if (!selectedUser || isModalOpen) return;
     toggleModal(true);
-  }, [selectedUser]);
+  }, [selectedUser, isModalOpen]);
 
   return (
     <div className={css['App']}>
       <main>
-        <SearchInput
-          value={searchValue}
-          onChange={setSearchValue}
-          onClick={getUserByName}
-        />
+        <SearchInput onSearch={getUserByName} isInstantSearch />
         <UserList list={users} onClick={selectUser} />
         <UserDetailModal
           user={selectedUser}
