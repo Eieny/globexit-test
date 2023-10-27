@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { UserList, SearchInput, UserDetailModal } from 'components';
 import User from 'data/user';
 import UserService from 'services/user.remote';
@@ -16,14 +16,14 @@ function App(props: Props) {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, selectUser] = useState<User | null>(null);
 
-  const getAllUsers = async () => {
+  const getAllUsers = useCallback(async () => {
     try {
       const res = await services.all();
       setUsers(res);
     } catch (e: any) {
       onError('Ошибка во время загрузки пользователей');
     }
-  };
+  }, [onError]);
 
   const getUserByName = async (searchStr: string) => {
     try {
@@ -41,7 +41,7 @@ function App(props: Props) {
 
   useEffect(() => {
     getAllUsers();
-  }, []);
+  }, [getAllUsers]);
 
   useEffect(() => {
     if (!selectedUser || isModalOpen) return;
